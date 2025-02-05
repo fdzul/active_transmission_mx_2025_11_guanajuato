@@ -19,11 +19,150 @@ library(magrittr)
 
 ::: panel-tabset
 ### [**León de Aldama**]{style="color:#990000"}
-
 ```{r}
-denhotspots::transmission_chains_map(geocoded_dataset = z,
-                                     cve_edo = "11",
-                                     locality = "Leon de Aldama",
-                                     dengue_cases = "Probable")
+geocoded_dataset <- z |>
+    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
+    dplyr::mutate(x = long,
+                  y = lat) |>
+    sf::st_as_sf(coords = c("long", "lat"),
+                 crs = 4326) |>
+    dplyr::select(DES_MPO_RES,VEC_ID, onset, SEM, ESTATUS_CASO, x, y,
+                  DENGUE_SER_TRIPLEX, DES_DIAG_FINAL, IDE_EDA_ANO) |>
+    dplyr::mutate(ESTATUS_CASO = ifelse(ESTATUS_CASO == 2,
+                                        "Confirmado",
+                                        "Probable"))
+loc <- rgeomex::extract_locality(cve_edo = "11",
+                                 locality = "Leon de Aldama")
+geocoded_dataset <- geocoded_dataset[loc, ]
+
+x <- denhotspots::knox(x = geocoded_dataset,
+                       crs = "+proj=eqc",
+                       ds = 400, # distance in meters
+                       dt = 20,  # days 0 to 20 day
+                       sym = 1000,
+                       sp_link = FALSE, # for sf
+                       planar_coord = FALSE)
+
+denhotspots::space_time_link_map(x =x,
+                                 locality = "Leon de Aldama",
+                                 cve_edo = "11",
+                                 maptype = "interactive_map")
 ```
 
+### [**Celaya**]{style="color:#990000"}
+```{r}
+geocoded_dataset <- z |>
+    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
+    dplyr::mutate(x = long,
+                  y = lat) |>
+    sf::st_as_sf(coords = c("long", "lat"),
+                 crs = 4326) |>
+    dplyr::select(DES_MPO_RES,VEC_ID, onset, SEM, ESTATUS_CASO, x, y,
+                  DENGUE_SER_TRIPLEX, DES_DIAG_FINAL, IDE_EDA_ANO) |>
+    dplyr::mutate(ESTATUS_CASO = ifelse(ESTATUS_CASO == 2,
+                                        "Confirmado",
+                                        "Probable"))
+loc <- rgeomex::extract_locality(cve_edo = "11",
+                                 locality = "Celaya")
+geocoded_dataset <- geocoded_dataset[loc, ]
+
+x <- denhotspots::knox(x = geocoded_dataset,
+                       crs = "+proj=eqc",
+                       ds = 400, # distance in meters
+                       dt = 20,  # days 0 to 20 day
+                       sym = 1000,
+                       sp_link = FALSE, # for sf
+                       planar_coord = FALSE)
+
+denhotspots::space_time_link_map(x =x,
+                                 locality = "Celaya",
+                                 cve_edo = "11",
+                                 maptype = "interactive_map")
+```
+
+### [**Silao**]{style="color:#990000"}
+
+```{r}
+geocoded_dataset <- z |>
+    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
+    dplyr::mutate(x = long,
+                  y = lat) |>
+    sf::st_as_sf(coords = c("long", "lat"),
+                 crs = 4326) |>
+    dplyr::select(DES_MPO_RES,VEC_ID, onset, SEM, ESTATUS_CASO, x, y,
+                  DENGUE_SER_TRIPLEX, DES_DIAG_FINAL, IDE_EDA_ANO) |>
+    dplyr::mutate(ESTATUS_CASO = ifelse(ESTATUS_CASO == 2,
+                                        "Confirmado",
+                                        "Probable"))
+loc <- rgeomex::extract_locality(cve_edo = "11",
+                                 locality = "Silao de la Victoria")
+geocoded_dataset <- geocoded_dataset[loc, ]
+
+x <- denhotspots::knox(x = geocoded_dataset,
+                       crs = "+proj=eqc",
+                       ds = 400, # distance in meters
+                       dt = 20,  # days 0 to 20 day
+                       sym = 1000,
+                       sp_link = FALSE, # for sf
+                       planar_coord = FALSE)
+
+denhotspots::space_time_link_map(x =x,
+                                 locality = "Silao de la Victoria",
+                                 cve_edo = "11",
+                                 maptype = "interactive_map")
+```
+:::
+
+
+# [**Cadenas de Transmisión**]{style="font-size:8pt"}
+
+::: panel-tabset
+### [**León de Aldama**]{style="color:#990000"}
+
+```{r}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "11",
+                   locality = "Leon de Aldama",
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+```
+
+
+### [**Celaya**]{style="color:#990000"}
+
+```{r}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "11",
+                   locality = "Celaya",
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+```
+
+
+### [**Silao**]{style="color:#990000"}
+
+```{r}
+densnv::mp_heatmap(geocoded_datasets = z,
+                   cve_edo = "11",
+                   locality = "Silao de la Victoria",
+                   status_caso = c(1, 2),
+                   week = c(1:53),
+                   zoom = NULL,
+                   map_type = NULL,
+                   alpha = 0.6,
+                   static = FALSE,
+                   palette = viridis::turbo)
+```
+
+
+:::
