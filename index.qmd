@@ -114,7 +114,7 @@ denhotspots::space_time_link_map(x =x,
 :::
 
 
-# [**Cadenas de Transmisión**]{style="font-size:8pt"}
+# [**Mapas de Calor**]{style="font-size:8pt"}
 
 ::: panel-tabset
 ### [**León de Aldama**]{style="color:#990000"}
