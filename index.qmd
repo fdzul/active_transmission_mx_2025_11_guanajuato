@@ -18,39 +18,26 @@ library(magrittr)
 # [**Cadenas de Transmisión**]{style="font-size:8pt"}
 
 ::: panel-tabset
+
+### [**Estatal**]{style="color:#990000"}
+```{r chains_statal}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "11",
+                                     locality = NULL,
+                                     dengue_cases = "Probable")
+```
+
+
 ### [**León de Aldama**]{style="color:#990000"}
-```{r}
-geocoded_dataset <- z |>
-    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
-    dplyr::mutate(x = long,
-                  y = lat) |>
-    sf::st_as_sf(coords = c("long", "lat"),
-                 crs = 4326) |>
-    dplyr::select(DES_MPO_RES,VEC_ID, onset, SEM, ESTATUS_CASO, x, y,
-                  DENGUE_SER_TRIPLEX, DES_DIAG_FINAL, IDE_EDA_ANO) |>
-    dplyr::mutate(ESTATUS_CASO = ifelse(ESTATUS_CASO == 2,
-                                        "Confirmado",
-                                        "Probable"))
-loc <- rgeomex::extract_locality(cve_edo = "11",
-                                 locality = "Leon de Aldama")
-geocoded_dataset <- geocoded_dataset[loc, ]
-
-x <- denhotspots::knox(x = geocoded_dataset,
-                       crs = "+proj=eqc",
-                       ds = 400, # distance in meters
-                       dt = 20,  # days 0 to 20 day
-                       sym = 1000,
-                       sp_link = FALSE, # for sf
-                       planar_coord = FALSE)
-
-denhotspots::space_time_link_map(x =x,
-                                 locality = "Leon de Aldama",
-                                 cve_edo = "11",
-                                 maptype = "interactive_map")
+```{r chains_leon}
+denhotspots::transmission_chains_map(geocoded_dataset = z,
+                                     cve_edo = "11",
+                                     locality = "Leon de Aldama",
+                                     dengue_cases = "Probable")
 ```
 
 ### [**Celaya**]{style="color:#990000"}
-```{r}
+```{r chains_celaya}
 geocoded_dataset <- z |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::mutate(x = long,
@@ -75,14 +62,14 @@ x <- denhotspots::knox(x = geocoded_dataset,
                        planar_coord = FALSE)
 
 denhotspots::space_time_link_map(x =x,
-                                 locality = "Celaya",
-                                 cve_edo = "11",
+                                 locality = "Cuernavaca",
+                                 cve_edo = "17",
                                  maptype = "interactive_map")
 ```
 
 ### [**Silao**]{style="color:#990000"}
 
-```{r}
+```{r chains_silao}
 geocoded_dataset <- z |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::mutate(x = long,
@@ -107,8 +94,8 @@ x <- denhotspots::knox(x = geocoded_dataset,
                        planar_coord = FALSE)
 
 denhotspots::space_time_link_map(x =x,
-                                 locality = "Silao de la Victoria",
-                                 cve_edo = "11",
+                                 locality = "Cuernavaca",
+                                 cve_edo = "17",
                                  maptype = "interactive_map")
 ```
 :::
