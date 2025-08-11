@@ -107,12 +107,12 @@ denhotspots::space_time_link_map(x =x,
 ::: panel-tabset
 ### [**León de Aldama**]{style="color:#990000"}
 
-```{r}
+```{r heatmap_leon}
 densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "11",
                    locality = "Leon de Aldama",
                    status_caso = c(1, 2),
-                   kernel = 500,
+                   kernel = 264,
                    week = c(1:53),
                    zoom = NULL,
                    map_type = NULL,
@@ -124,7 +124,7 @@ densnv::mp_heatmap(geocoded_dataset = z,
 
 ### [**Celaya**]{style="color:#990000"}
 
-```{r}
+```{r heatmap_celaya}
 densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "11",
                    locality = "Celaya",
@@ -141,7 +141,7 @@ densnv::mp_heatmap(geocoded_dataset = z,
 
 ### [**Silao**]{style="color:#990000"}
 
-```{r}
+```{r heatmap_silao}
 densnv::mp_heatmap(geocoded_dataset = z,
                    cve_edo = "11",
                    locality = "Silao de la Victoria",
